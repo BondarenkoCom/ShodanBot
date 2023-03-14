@@ -1,0 +1,15 @@
+﻿<Window x:Class="ShodanAi.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ShodanAi"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="560" Width="845">
+    <Grid x:Name="GridDisplay" >
+        <Button x:Name="StartShodan" Content="Init Shodan" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF18AB65" Width="125" Height="29" BorderBrush="#FF74AE07" Click="StartShodan_Click"/>
+        <TextBox x:Name="ShodanDialog" HorizontalAlignment="Left" Margin="0,29,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="125" Height="142" TextChanged="ShodanDialog_TextChanged"/>
+        <TextBox x:Name="ShodanDialogVoiceRecognition" HorizontalAlignment="Left" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Center" Width="244" Height="180"/>
+
+    </Grid>
+</Window>

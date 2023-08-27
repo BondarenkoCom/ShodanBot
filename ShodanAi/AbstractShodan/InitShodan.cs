@@ -1,20 +1,16 @@
 ﻿using ShodanAi.Settings;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
+using System.Windows.Controls;
 
 namespace ShodanAi.AbstractShodan
 {
     internal class InitShodan
     {
-        public static void InitShodanWelcome()
-        {           
-            VoiceRecognitionBase.CheckerVoice();
+        public static async Task InitShodanWelcome(TextBox debugTextBox, Label recognitionStatusLabel, TextBlock logTextBlock)
+        {
+            VoiceRecognitionBase voiceRecognition = new VoiceRecognitionBase(debugTextBox, recognitionStatusLabel, logTextBlock);
+            await voiceRecognition.CheckerVoiceAsync();
         }
-        
     }
 }

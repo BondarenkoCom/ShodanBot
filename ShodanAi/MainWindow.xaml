@@ -5,11 +5,118 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ShodanAi"
         mc:Ignorable="d"
-        Title="MainWindow" Height="560" Width="845">
-    <Grid x:Name="GridDisplay" >
-        <Button x:Name="StartShodan" Content="Init Shodan" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF18AB65" Width="125" Height="29" BorderBrush="#FF74AE07" Click="StartShodan_Click"/>
-        <TextBox x:Name="ShodanDialog" HorizontalAlignment="Left" Margin="0,29,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="125" Height="142" TextChanged="ShodanDialog_TextChanged"/>
-        <TextBox x:Name="ShodanDialogVoiceRecognition" HorizontalAlignment="Left" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Center" Width="244" Height="180"/>
-
+        Title="MainWindow" Height="500" Width="1000"
+        Background="#FF1E1E1E">
+    <Grid x:Name="GridDisplay">
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#FF003300" Offset="0.0"/>
+                <GradientStop Color="#FF006600" Offset="0.5"/>
+                <GradientStop Color="#FF003300" Offset="1.0"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <!-- MediaElement for animated GIF -->
+        <MediaElement x:Name="AnimatedGif" 
+              LoadedBehavior="Manual" 
+              UnloadedBehavior="Manual" 
+              Stretch="Uniform" 
+              HorizontalAlignment="Center" 
+              VerticalAlignment="Center"
+              Width="498" Height="498"
+              MediaEnded="AnimatedGif_MediaEnded"/>
+        <!-- UI Elements on the Left -->
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10">
+            <Button x:Name="StartShodan" 
+                    Content="Init Shodan" 
+                    Background="#FF18AB65" 
+                    Foreground="#FF00FF00"
+                    Width="230" 
+                    Height="29" 
+                    BorderBrush="#FF00FF00" 
+                    Click="StartShodan_Click">
+                <Button.Effect>
+                    <DropShadowEffect Color="#FF00FF00" 
+                                      Direction="320" 
+                                      ShadowDepth="5" 
+                                      Opacity="0.8"/>
+                </Button.Effect>
+            </Button>
+            <TextBox x:Name="ShodanDialog" 
+                     TextWrapping="Wrap" 
+                     Width="230" 
+                     Height="142" 
+                     Background="#FF1E1E1E" 
+                     Foreground="#FF00FF00"
+                     TextChanged="ShodanDialog_TextChanged">
+                <TextBox.Effect>
+                    <DropShadowEffect Color="#FF00FF00" 
+                                      Direction="320" 
+                                      ShadowDepth="5" 
+                                      Opacity="0.8"/>
+                </TextBox.Effect>
+            </TextBox>
+            <TextBox x:Name="ShodanDialogVoiceRecognition" 
+                     TextWrapping="Wrap" 
+                     Text="" 
+                     Width="230" 
+                     Height="20" 
+                     Background="#FF1E1E1E" 
+                     Foreground="#FF00FF00">
+                <TextBox.Effect>
+                    <DropShadowEffect Color="#FF00FF00" 
+                                      Direction="320" 
+                                      ShadowDepth="5" 
+                                      Opacity="0.8"/>
+                </TextBox.Effect>
+            </TextBox>
+            <Label x:Name="recognitionStatusLabel" 
+       Content="Recognition Status: Not Started" 
+       Width="230" 
+       Height="30" 
+       FontStyle="Italic" 
+       FontWeight="Bold" 
+       BorderBrush="#FF00FF00" 
+       BorderThickness="2">
+                <Label.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#FF1E1E1E" Offset="0.0"/>
+                        <GradientStop Color="#FF8B0000" Offset="0.5"/>
+                        <GradientStop Color="#FF1E1E1E" Offset="1.0"/>
+                    </LinearGradientBrush>
+                </Label.Background>
+                <Label.Foreground>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="#FF00FF00" Offset="0.0"/>
+                        <GradientStop Color="#FFFFFF" Offset="0.5"/>
+                        <GradientStop Color="#FF00FF00" Offset="1.0"/>
+                    </LinearGradientBrush>
+                </Label.Foreground>
+                <Label.Effect>
+                    <DropShadowEffect Color="#FF00FF00" 
+                          Direction="320" 
+                          ShadowDepth="5" 
+                          Opacity="0.8"/>
+                </Label.Effect>
+            </Label>
+            <TextBlock x:Name="LogTextBlock" 
+           Width="230" 
+           Height="101" 
+           TextWrapping="Wrap" 
+           Foreground="#FF00FF00">
+                <TextBlock.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#FF1E1E1E" Offset="0.0"/>
+                        <GradientStop Color="#FF450000" Offset="0.5"/>
+                        <GradientStop Color="#FF1E1E1E" Offset="1.0"/>
+                    </LinearGradientBrush>
+                </TextBlock.Background>
+                <TextBlock.Effect>
+                    <DropShadowEffect Color="#FF00FF00" 
+                          Direction="320" 
+                          ShadowDepth="5" 
+                          Opacity="0.8"/>
+                </TextBlock.Effect>
+            </TextBlock>
+        </StackPanel>
     </Grid>
 </Window>

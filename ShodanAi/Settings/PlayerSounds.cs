@@ -16,7 +16,6 @@ namespace ShodanAi.Settings
             player.PlayLooping();
             System.Threading.Thread.Sleep(7000);
             player.Stop();
-
         }
     }
 }

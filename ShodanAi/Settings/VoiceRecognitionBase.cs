@@ -1,61 +1,101 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Speech.Recognition;
 using ShodanAi.AbstractShodan;
 using System.Windows.Controls;
-using System.Windows;
-using System.Threading;
 
 namespace ShodanAi.Settings
 {
     public class VoiceRecognitionBase
     {
+        private TextBox debugTextBox;
+        private Label recognitionStatusLabel;
+        private TextBlock logTextBlock;
+        private SpeechRecognitionEngine recognizer;
 
-        public static string CheckerVoice()
+        public VoiceRecognitionBase(TextBox debugTextBox, Label recognitionStatusLabel, TextBlock logTextBlock)
         {
+            this.debugTextBox = debugTextBox;
+            this.recognitionStatusLabel = recognitionStatusLabel;
+            this.logTextBlock = logTextBlock;
 
+            // Initialize the SpeechRecognitionEngine
+            recognizer = new SpeechRecognitionEngine(new System.Globalization.CultureInfo("en-US"));
+            recognizer.LoadGrammar(new DictationGrammar());
+            recognizer.SpeechRecognized += new EventHandler<SpeechRecognizedEventArgs>(recognizer_SpeechRecognized);
+            recognizer.SpeechDetected += new EventHandler<SpeechDetectedEventArgs>(recognizer_SpeechDetected);
+            recognizer.SpeechRecognitionRejected += new EventHandler<SpeechRecognitionRejectedEventArgs>(recognizer_SpeechRecognitionRejected);
+            recognizer.AudioStateChanged += new EventHandler<AudioStateChangedEventArgs>(recognizer_AudioStateChanged);
+            recognizer.SetInputToDefaultAudioDevice();
+        }
+
+        public async Task<string> CheckerVoiceAsync()
+        {
             string mesAnswer = "Init Shodan Voice Recognition Module";
-
-            using (
-            SpeechRecognitionEngine recognizer =
-            new SpeechRecognitionEngine(new System.Globalization.CultureInfo("en-US")))
+            await Task.Run(() =>
             {
-                recognizer.LoadGrammar(new DictationGrammar());
-            
-                recognizer.SpeechRecognized +=
-                  new EventHandler<SpeechRecognizedEventArgs>(recognizer_SpeechRecognized);
-
-                recognizer.SetInputToDefaultAudioDevice();
-
                 recognizer.RecognizeAsync(RecognizeMode.Multiple);
 
-               while (true)
-               {
-                    //ShodanDialogVoiceRecognition.Text = "Init Shodan Voice Recognition Module";
-                    Thread.Sleep(9000);
-                    return mesAnswer;
-
-                   //Console.ReadLine();
-               }
-            }
-
-            static void recognizer_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
-            {
-
-                if (e.Result.Text == "hello" || e.Result.Text == "nice" || e.Result.Text == "hi" || e.Result.Text == "high")
+                debugTextBox.Dispatcher.Invoke(() =>
                 {
+                    debugTextBox.Text = "Init Shodan Voice Recognition Module";
+                });
+            });
+            return mesAnswer;
+        }
 
-                    Shodan newHacker = new NewHacker("Edward Diego", @"..\..\..\Sounds\Shodan24Bit\ShodanBit.wav");
+        private void recognizer_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
+        {
+            debugTextBox.Dispatcher.Invoke(() =>
+            {
+                debugTextBox.Text = "Recognized text: " + e.Result.Text;
+            });
 
-                    newHacker.WelcomeHacker();
-                }
+            if (e.Result.Text == "hello" || e.Result.Text == "nice" || e.Result.Text == "Nice" || e.Result.Text == "hi" || e.Result.Text == "high")
+            {
+                Shodan newHacker = new NewHacker("Edward Diego", @"C:\Users\Honor\source\repos\ShodanAi\ShodanAi\Source\Sounds\Shodan24Bit\ShodanBit.wav");
 
-               // Console.WriteLine("Recognized text: " + e.Result.Text);
+                newHacker.WelcomeHacker();
+                newHacker.WelcomeHacker_Text();
             }
+
+            recognitionStatusLabel.Dispatcher.Invoke(() =>
+            {
+                recognitionStatusLabel.Content = "Recognition Status: Speech Recognized";
+            });
+
+            logTextBlock.Dispatcher.Invoke(() =>
+            {
+                logTextBlock.Text += $"Recognized text: {e.Result.Text}\n";
+            });
+        }
+
+        private void recognizer_SpeechDetected(object sender, SpeechDetectedEventArgs e)
+        {
+            recognitionStatusLabel.Dispatcher.Invoke(() =>
+            {
+                recognitionStatusLabel.Content = "Recognition Status: Speech Detected";
+            });
+        }
+
+        private void recognizer_SpeechRecognitionRejected(object sender, SpeechRecognitionRejectedEventArgs e)
+        {
+            recognitionStatusLabel.Dispatcher.Invoke(() =>
+            {
+                recognitionStatusLabel.Content = "Recognition Status: Speech Rejected";
+            });
+        }
+
+        private void recognizer_AudioStateChanged(object sender, AudioStateChangedEventArgs e)
+        {
+            recognitionStatusLabel.Dispatcher.Invoke(() =>
+            {
+                recognitionStatusLabel.Content = $"Audio State: {e.AudioState}";
+                if (e.AudioState == AudioState.Stopped)
+                {
+                    // Действия при остановке распознавания
+                }
+            });
         }
     }
 }
-

@@ -5,118 +5,218 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ShodanAi"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="1000"
-        Background="#FF1E1E1E">
-    <Grid x:Name="GridDisplay">
+        Title="S.H.O.D.A.N. :: Sovereign Hacker Interface"
+        Height="600"
+        Width="1100"
+        Background="#FF050505"
+        FontFamily="Consolas">
+    <Window.Resources>
+        <DropShadowEffect x:Key="NeonShadow" Color="#FF00FF9C" ShadowDepth="0" BlurRadius="20" Opacity="0.8" />
+        <SolidColorBrush x:Key="NeonGreen" Color="#FF4CFF87" />
+        <SolidColorBrush x:Key="DeepSpace" Color="#FF020B0A" />
+    </Window.Resources>
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Window.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="Scanline"
+                                     Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                                     From="-400" To="400" Duration="0:0:2.4" RepeatBehavior="Forever" AutoReverse="True" />
+                    <DoubleAnimation Storyboard.TargetName="EnergyHalo"
+                                     Storyboard.TargetProperty="Opacity"
+                                     From="0.15" To="0.5" Duration="0:0:3"
+                                     RepeatBehavior="Forever" AutoReverse="True" />
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </Window.Triggers>
+    <Grid x:Name="GridDisplay" SnapsToDevicePixels="True">
         <Grid.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                <GradientStop Color="#FF003300" Offset="0.0"/>
-                <GradientStop Color="#FF006600" Offset="0.5"/>
-                <GradientStop Color="#FF003300" Offset="1.0"/>
+                <GradientStop Color="#FF020F0A" Offset="0.0"/>
+                <GradientStop Color="#FF042A18" Offset="0.5"/>
+                <GradientStop Color="#FF010504" Offset="1.0"/>
             </LinearGradientBrush>
         </Grid.Background>
-        <!-- MediaElement for animated GIF -->
-        <MediaElement x:Name="AnimatedGif" 
-              LoadedBehavior="Manual" 
-              UnloadedBehavior="Manual" 
-              Stretch="Uniform" 
-              HorizontalAlignment="Center" 
-              VerticalAlignment="Center"
-              Width="498" Height="498"
-              MediaEnded="AnimatedGif_MediaEnded"/>
-        <!-- UI Elements on the Left -->
-        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10">
-            <Button x:Name="StartShodan" 
-                    Content="Init Shodan" 
-                    Background="#FF18AB65" 
-                    Foreground="#FF00FF00"
-                    Width="230" 
-                    Height="29" 
-                    BorderBrush="#FF00FF00" 
-                    Click="StartShodan_Click">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="280" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="320" />
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.ColumnSpan="3"
+                Grid.RowSpan="2"
+                Background="#88001010"
+                CornerRadius="8"
+                Effect="{StaticResource NeonShadow}" />
+
+        <Rectangle x:Name="EnergyHalo"
+                   Grid.ColumnSpan="3"
+                   Grid.RowSpan="2"
+                   RadiusX="0"
+                   RadiusY="0"
+                   Opacity="0.2">
+            <Rectangle.Fill>
+                <RadialGradientBrush GradientOrigin="0.5,0.5" RadiusX="0.85" RadiusY="0.6">
+                    <GradientStop Color="#FF0E4F33" Offset="0" />
+                    <GradientStop Color="#FF010101" Offset="1" />
+                </RadialGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+
+        <Rectangle x:Name="Scanline"
+                   Grid.ColumnSpan="3"
+                   Grid.RowSpan="2"
+                   Height="120"
+                   Fill="#2200FF9C"
+                   Opacity="0.4">
+            <Rectangle.RenderTransform>
+                <TranslateTransform Y="-400" />
+            </Rectangle.RenderTransform>
+        </Rectangle>
+
+        <Border Grid.Row="0"
+                Grid.ColumnSpan="3"
+                Margin="16"
+                Padding="12"
+                BorderThickness="2"
+                BorderBrush="#3300FF9C"
+                Background="#33000404">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                <TextBlock Text="// S.H.O.D.A.N :: SENTIENT HYPER-OPTIMIZED DATA ACCESS NETWORK"
+                           Foreground="{StaticResource NeonGreen}"
+                           FontSize="18"
+                           FontWeight="Bold" />
+            </StackPanel>
+        </Border>
+
+        <StackPanel Grid.Row="1" Grid.Column="0" Margin="20" VerticalAlignment="Stretch">
+            <TextBlock Text="ACCESS TERMINAL"
+                       FontSize="14"
+                       Foreground="{StaticResource NeonGreen}"
+                       FontWeight="Bold"
+                       Margin="0,0,0,10" />
+
+            <Button x:Name="StartShodan"
+                    Content="// ignite consciousness"
+                    Height="40"
+                    Background="#2200FF9C"
+                    Foreground="{StaticResource NeonGreen}"
+                    BorderBrush="#7700FF9C"
+                    Click="StartShodan_Click"
+                    FontWeight="Bold"
+                    Padding="8"
+                    Cursor="Hand"
+                    Margin="0,0,0,12">
                 <Button.Effect>
-                    <DropShadowEffect Color="#FF00FF00" 
-                                      Direction="320" 
-                                      ShadowDepth="5" 
-                                      Opacity="0.8"/>
+                    <DropShadowEffect Color="#FF00FF9C" ShadowDepth="0" BlurRadius="15" Opacity="0.7" />
                 </Button.Effect>
             </Button>
-            <TextBox x:Name="ShodanDialog" 
-                     TextWrapping="Wrap" 
-                     Width="230" 
-                     Height="142" 
-                     Background="#FF1E1E1E" 
-                     Foreground="#FF00FF00"
-                     TextChanged="ShodanDialog_TextChanged">
-                <TextBox.Effect>
-                    <DropShadowEffect Color="#FF00FF00" 
-                                      Direction="320" 
-                                      ShadowDepth="5" 
-                                      Opacity="0.8"/>
-                </TextBox.Effect>
-            </TextBox>
-            <TextBox x:Name="ShodanDialogVoiceRecognition" 
-                     TextWrapping="Wrap" 
-                     Text="" 
-                     Width="230" 
-                     Height="20" 
-                     Background="#FF1E1E1E" 
-                     Foreground="#FF00FF00">
-                <TextBox.Effect>
-                    <DropShadowEffect Color="#FF00FF00" 
-                                      Direction="320" 
-                                      ShadowDepth="5" 
-                                      Opacity="0.8"/>
-                </TextBox.Effect>
-            </TextBox>
-            <Label x:Name="recognitionStatusLabel" 
-       Content="Recognition Status: Not Started" 
-       Width="230" 
-       Height="30" 
-       FontStyle="Italic" 
-       FontWeight="Bold" 
-       BorderBrush="#FF00FF00" 
-       BorderThickness="2">
-                <Label.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                        <GradientStop Color="#FF1E1E1E" Offset="0.0"/>
-                        <GradientStop Color="#FF8B0000" Offset="0.5"/>
-                        <GradientStop Color="#FF1E1E1E" Offset="1.0"/>
-                    </LinearGradientBrush>
-                </Label.Background>
-                <Label.Foreground>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                        <GradientStop Color="#FF00FF00" Offset="0.0"/>
-                        <GradientStop Color="#FFFFFF" Offset="0.5"/>
-                        <GradientStop Color="#FF00FF00" Offset="1.0"/>
-                    </LinearGradientBrush>
-                </Label.Foreground>
-                <Label.Effect>
-                    <DropShadowEffect Color="#FF00FF00" 
-                          Direction="320" 
-                          ShadowDepth="5" 
-                          Opacity="0.8"/>
-                </Label.Effect>
-            </Label>
-            <TextBlock x:Name="LogTextBlock" 
-           Width="230" 
-           Height="101" 
-           TextWrapping="Wrap" 
-           Foreground="#FF00FF00">
-                <TextBlock.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                        <GradientStop Color="#FF1E1E1E" Offset="0.0"/>
-                        <GradientStop Color="#FF450000" Offset="0.5"/>
-                        <GradientStop Color="#FF1E1E1E" Offset="1.0"/>
-                    </LinearGradientBrush>
-                </TextBlock.Background>
-                <TextBlock.Effect>
-                    <DropShadowEffect Color="#FF00FF00" 
-                          Direction="320" 
-                          ShadowDepth="5" 
-                          Opacity="0.8"/>
-                </TextBlock.Effect>
-            </TextBlock>
+
+            <Border BorderBrush="#5500FF9C" BorderThickness="2" Background="#33000202" Padding="8" CornerRadius="4" Margin="0,0,0,12">
+                <TextBox x:Name="ShodanDialog"
+                         TextWrapping="Wrap"
+                         AcceptsReturn="True"
+                         IsReadOnly="True"
+                         VerticalScrollBarVisibility="Hidden"
+                         Background="Transparent"
+                         Foreground="{StaticResource NeonGreen}"
+                         BorderThickness="0"
+                         Height="170"
+                         TextChanged="ShodanDialog_TextChanged"
+                         FontSize="13" />
+            </Border>
+
+            <Border BorderBrush="#4400FF9C" BorderThickness="1" Background="#22000101" Padding="6" CornerRadius="4" Margin="0,0,0,12">
+                <TextBox x:Name="ShodanDialogVoiceRecognition"
+                         TextWrapping="Wrap"
+                         IsReadOnly="True"
+                         Background="Transparent"
+                         Foreground="{StaticResource NeonGreen}"
+                         BorderThickness="0"
+                         FontStyle="Italic"
+                         FontSize="12" />
+            </Border>
+
+            <Label x:Name="recognitionStatusLabel"
+                   Content="Recognition Status: Not Started"
+                   Height="32"
+                   FontStyle="Italic"
+                   FontWeight="Bold"
+                   Foreground="{StaticResource NeonGreen}"
+                   Background="#22000202"
+                   BorderBrush="#6600FF9C"
+                   BorderThickness="2"
+                   HorizontalContentAlignment="Center"
+                   VerticalContentAlignment="Center" />
+
+            <Border BorderBrush="#6600FF9C" BorderThickness="1" Background="#19000303" Padding="8" CornerRadius="4" Height="140" Margin="0,12,0,0">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <TextBlock x:Name="LogTextBlock"
+                               TextWrapping="Wrap"
+                               Foreground="{StaticResource NeonGreen}"
+                               FontSize="12" />
+                </ScrollViewer>
+            </Border>
         </StackPanel>
+
+        <Border Grid.Row="1" Grid.Column="1" Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                BorderBrush="#5500FF9C"
+                BorderThickness="2"
+                Background="#33000101"
+                CornerRadius="12"
+                Padding="20">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Border BorderBrush="#7700FF9C" BorderThickness="1" CornerRadius="8" Background="#11000000" Padding="10">
+                    <MediaElement x:Name="AnimatedGif"
+                                  LoadedBehavior="Manual"
+                                  UnloadedBehavior="Manual"
+                                  Stretch="Uniform"
+                                  MediaEnded="AnimatedGif_MediaEnded" />
+                </Border>
+                <TextBlock x:Name="StatusPulse"
+                           Grid.Row="1"
+                           Margin="0,12,0,0"
+                           Text="// awaiting intrusion..."
+                           Foreground="{StaticResource NeonGreen}"
+                           FontSize="13"
+                           TextAlignment="Center"
+                           FontStyle="Italic" />
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="1" Grid.Column="2" Margin="20"
+                BorderBrush="#4400FF9C"
+                BorderThickness="1"
+                Background="#22000101"
+                CornerRadius="6"
+                Padding="12">
+            <StackPanel>
+                <TextBlock Text="TELEMETRY" Foreground="{StaticResource NeonGreen}" FontSize="14" FontWeight="Bold" Margin="0,0,0,8" />
+                <TextBlock x:Name="TelemetryTextBlock"
+                           Text="--"
+                           TextWrapping="Wrap"
+                           Foreground="{StaticResource NeonGreen}"
+                           FontSize="12"
+                           Margin="0,0,0,8" />
+                <Separator Margin="0,8,0,8" Background="#3300FF9C" Height="1" />
+                <TextBlock Text="GLITCH STREAM" Foreground="{StaticResource NeonGreen}" FontSize="14" FontWeight="Bold" Margin="0,0,0,8" />
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Height="280">
+                    <TextBlock x:Name="GlitchTextBlock"
+                               Text="--"
+                               TextWrapping="Wrap"
+                               Foreground="{StaticResource NeonGreen}"
+                               FontSize="12" />
+                </ScrollViewer>
+            </StackPanel>
+        </Border>
     </Grid>
 </Window>

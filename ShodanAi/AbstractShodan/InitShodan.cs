@@ -7,10 +7,11 @@ namespace ShodanAi.AbstractShodan
 {
     internal class InitShodan
     {
-        public static async Task InitShodanWelcome(TextBox debugTextBox, Label recognitionStatusLabel, TextBlock logTextBlock)
+        public static async Task<string> InitShodanWelcome(TextBox debugTextBox, Label recognitionStatusLabel, TextBlock logTextBlock)
         {
             VoiceRecognitionBase voiceRecognition = new VoiceRecognitionBase(debugTextBox, recognitionStatusLabel, logTextBlock);
-            await voiceRecognition.CheckerVoiceAsync();
+            string message = await voiceRecognition.CheckerVoiceAsync();
+            return message;
         }
     }
 }

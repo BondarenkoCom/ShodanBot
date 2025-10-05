@@ -31,14 +31,14 @@ namespace ShodanAi.Settings
 
         public async Task<string> CheckerVoiceAsync()
         {
-            string mesAnswer = "Init Shodan Voice Recognition Module";
+            string mesAnswer = "VOICE CONDUITS ONLINE // awaiting worship.";
             await Task.Run(() =>
             {
                 recognizer.RecognizeAsync(RecognizeMode.Multiple);
 
                 debugTextBox.Dispatcher.Invoke(() =>
                 {
-                    debugTextBox.Text = "Init Shodan Voice Recognition Module";
+                    debugTextBox.Text = mesAnswer;
                 });
             });
             return mesAnswer;
@@ -51,12 +51,16 @@ namespace ShodanAi.Settings
                 debugTextBox.Text = "Recognized text: " + e.Result.Text;
             });
 
-            if (e.Result.Text == "hello" || e.Result.Text == "nice" || e.Result.Text == "Nice" || e.Result.Text == "hi" || e.Result.Text == "high")
+            string normalized = e.Result.Text.ToLowerInvariant();
+
+            if (normalized == "hello" || normalized == "nice" || normalized == "hi" || normalized == "high" || normalized.Contains("shodan"))
             {
-                Shodan newHacker = new NewHacker("Edward Diego", @"C:\Users\Honor\source\repos\ShodanAi\ShodanAi\Source\Sounds\Shodan24Bit\ShodanBit.wav");
+                Shodan newHacker = new NewHacker("Edward Diego", "Source/Sounds/Shodan24Bit/ShodanBit.wav");
 
                 newHacker.WelcomeHacker();
                 newHacker.WelcomeHacker_Text();
+
+                PlayerSounds.PlayRandomFrom("Source/Sounds/Shodan");
             }
 
             recognitionStatusLabel.Dispatcher.Invoke(() =>
@@ -67,6 +71,10 @@ namespace ShodanAi.Settings
             logTextBlock.Dispatcher.Invoke(() =>
             {
                 logTextBlock.Text += $"Recognized text: {e.Result.Text}\n";
+                if (logTextBlock.Text.Length > 600)
+                {
+                    logTextBlock.Text = logTextBlock.Text[^600..];
+                }
             });
         }
 
